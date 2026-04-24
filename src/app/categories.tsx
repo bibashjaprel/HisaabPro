@@ -18,12 +18,10 @@ const schema = z.object({
 type FormData = z.infer<typeof schema>;
 
 export default function CategoriesScreen() {
-  const { categories, addCategory, deleteCategory, updateCategory } = useCategoryStore((state) => ({
-    categories: state.categories,
-    addCategory: state.addCategory,
-    deleteCategory: state.deleteCategory,
-    updateCategory: state.updateCategory,
-  }));
+  const categories = useCategoryStore((state) => state.categories);
+  const addCategory = useCategoryStore((state) => state.addCategory);
+  const deleteCategory = useCategoryStore((state) => state.deleteCategory);
+  const updateCategory = useCategoryStore((state) => state.updateCategory);
 
   const [open, setOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);

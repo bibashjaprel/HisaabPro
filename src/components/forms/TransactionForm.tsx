@@ -2,6 +2,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as Haptics from 'expo-haptics';
 import { useRouter } from 'expo-router';
 import { Controller, useForm } from 'react-hook-form';
+import { useMemo } from 'react';
 import { Pressable, Text, TextInput, View } from 'react-native';
 import { z } from 'zod';
 
@@ -39,7 +40,11 @@ export function TransactionForm({ type, editing, initialCategoryId }: Transactio
   const router = useRouter();
   const addTransaction = useTransactionStore((state) => state.addTransaction);
   const updateTransaction = useTransactionStore((state) => state.updateTransaction);
-  const categories = useCategoryStore((state) => state.getByType(type));
+  const allCategories = useCategoryStore((state) => state.categories);
+  const categories = useMemo(
+    () => allCategories.filter((category) => category.type === type),
+    [allCategories, type],
+  );
 
   const {
     control,

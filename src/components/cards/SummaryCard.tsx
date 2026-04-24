@@ -8,9 +8,9 @@ interface SummaryCardProps {
 
 export function SummaryCard({ label, value, valueClassName = 'text-textPrimary' }: SummaryCardProps) {
   return (
-    <View className="flex-1 rounded-2xl bg-card p-4 shadow-soft">
-      <Text className="text-xs text-textSecondary">{label}</Text>
-      <Text className={`mt-1 text-xl font-bold ${valueClassName}`}>{value}</Text>
+    <View className="flex-1 rounded-3xl border border-border/70 bg-card px-4 py-4">
+      <Text className="text-sm font-medium text-textSecondary">{label}</Text>
+      <Text className={`mt-1 text-3xl font-semibold ${valueClassName}`}>{value}</Text>
     </View>
   );
 }

@@ -23,20 +23,25 @@ export default function HomeScreen() {
 
   return (
     <Screen scroll>
-      <View className="py-3">
-        <View className="mb-4 flex-row items-center justify-between">
+      <View className="py-4 pb-28">
+        <View className="mb-5 flex-row items-center justify-between">
           <View>
-            <Text className="text-sm text-textSecondary">Hello {userName}</Text>
-            <Text className="text-2xl font-bold text-textPrimary">Dashboard</Text>
+            <Text className="text-base text-textSecondary">Hello {userName}</Text>
+            <Text className="text-4xl font-bold text-textPrimary">Dashboard</Text>
           </View>
-          <Pressable onPress={() => router.push('/search')} className="rounded-xl border border-border p-2">
-            <Ionicons name="search" size={20} color="#111827" />
+          <Pressable
+            onPress={() => router.push('/search')}
+            className="h-14 w-14 items-center justify-center rounded-2xl border border-border bg-white"
+          >
+            <Ionicons name="search" size={26} color="#111827" />
           </Pressable>
         </View>
 
-        <View className="mb-4 rounded-2xl bg-primary p-5 shadow-soft">
-          <Text className="text-sm text-white/80">Total Balance</Text>
-          <Text className="mt-1 text-4xl font-bold text-white">{formatCurrency(totalBalance)}</Text>
+        <View className="mb-4 rounded-3xl bg-primary px-6 py-6">
+          <Text className="text-base text-white/85">Total Balance</Text>
+          <Text className="mt-1 text-5xl font-bold text-white">
+            {formatCurrency(totalBalance)}
+          </Text>
         </View>
 
         <View className="mb-4 flex-row gap-3">
@@ -44,33 +49,33 @@ export default function HomeScreen() {
           <SummaryCard label="Expense" value={formatCurrency(totalExpense)} valueClassName="text-danger" />
         </View>
 
-        <View className="mb-4">
-          <View className="mb-2 flex-row items-center justify-between">
-            <Text className="text-base font-semibold text-textPrimary">Quick Actions</Text>
+        <View className="mb-5">
+          <View className="mb-3 flex-row items-center justify-between">
+            <Text className="text-2xl font-semibold text-textPrimary">Quick Actions</Text>
             <Pressable onPress={() => router.push('/categories')}>
-              <Text className="text-sm font-medium text-primary">Manage</Text>
+              <Text className="text-lg font-medium text-primary">Manage</Text>
             </Pressable>
           </View>
-          <View className="flex-row flex-wrap gap-2">
+          <View className="flex-row gap-2">
             {DEFAULT_EXPENSE_CATEGORIES.slice(0, 4).map((category) => (
               <Pressable
                 key={category.id}
                 onPress={() =>
                   router.push({ pathname: '/add-expense', params: { categoryId: category.id } })
                 }
-                className="rounded-xl border border-border bg-white px-4 py-3"
+                className="flex-1 rounded-2xl border border-border bg-white px-2 py-3"
               >
-                <Text className="font-medium text-textPrimary">{category.name}</Text>
+                <Text className="text-center text-base font-medium text-textPrimary">{category.name}</Text>
               </Pressable>
             ))}
           </View>
         </View>
 
         <View>
-          <View className="mb-2 flex-row items-center justify-between">
-            <Text className="text-base font-semibold text-textPrimary">Recent Transactions</Text>
+          <View className="mb-3 flex-row items-center justify-between">
+            <Text className="text-2xl font-semibold text-textPrimary">Recent Transactions</Text>
             <Pressable onPress={() => router.push('/search')}>
-              <Text className="text-sm font-medium text-primary">See all</Text>
+              <Text className="text-lg font-medium text-primary">See all</Text>
             </Pressable>
           </View>
 
