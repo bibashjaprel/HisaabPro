@@ -15,9 +15,11 @@ type Filter = (typeof FILTERS)[number];
 export default function ReportsScreen() {
   const transactions = useTransactionStore((state) => state.transactions);
   const [filter, setFilter] = useState<Filter>('Monthly');
+  const [monthOffset, setMonthOffset] = useState(0);
 
   const rangeTransactions = useMemo(() => {
     const now = new Date();
+    const selectedMonthDate = new Date(now.getFullYear(), now.getMonth() + monthOffset, 1);
 
     return transactions.filter((transaction) => {
       const date = new Date(transaction.date);
@@ -29,12 +31,15 @@ export default function ReportsScreen() {
         return date >= lastWeek;
       }
       if (filter === 'Monthly') {
-        return date.getMonth() === now.getMonth() && date.getFullYear() === now.getFullYear();
+        return (
+          date.getMonth() === selectedMonthDate.getMonth() &&
+          date.getFullYear() === selectedMonthDate.getFullYear()
+        );
       }
 
       return date.getFullYear() === now.getFullYear();
     });
-  }, [filter, transactions]);
+  }, [filter, monthOffset, transactions]);
 
   const totalIncome = totalByType(rangeTransactions, 'income');
   const totalExpense = totalByType(rangeTransactions, 'expense');
@@ -66,6 +71,12 @@ export default function ReportsScreen() {
     .slice(-10)
     .map(([label, value]) => ({ label, value }));
 
+  const monthLabel = new Date(
+    new Date().getFullYear(),
+    new Date().getMonth() + monthOffset,
+    1,
+  ).toLocaleDateString('en-NP', { month: 'long', year: 'numeric' });
+
   return (
     <Screen scroll>
       <View className="py-3">
@@ -86,6 +97,18 @@ export default function ReportsScreen() {
             </Pressable>
           ))}
         </View>
+
+        {filter === 'Monthly' && (
+          <View className="mb-4 flex-row items-center justify-between rounded-xl border border-border bg-white px-4 py-3">
+            <Pressable onPress={() => setMonthOffset((value) => value - 1)}>
+              <Text className="text-sm font-semibold text-primary">Prev</Text>
+            </Pressable>
+            <Text className="text-sm font-semibold text-textPrimary">{monthLabel}</Text>
+            <Pressable onPress={() => setMonthOffset((value) => value + 1)}>
+              <Text className="text-sm font-semibold text-primary">Next</Text>
+            </Pressable>
+          </View>
+        )}
 
         <View className="mb-4 flex-row gap-3">
           <SummaryCard label="Total Expense" value={formatCurrency(totalExpense)} valueClassName="text-danger" />
